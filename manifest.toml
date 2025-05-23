@@ -55,6 +55,13 @@ ram.runtime = "50M"
     extract = false
     rename = "yt-dlp"
 
+    [resources.sources.monolith]
+    url = "https://github.com/Y2Z/monolith/releases/download/v2.10.1/monolith-gnu-linux-x86_64"
+    sha256 = "663ca914b078e91d5a854b4a07e913c613bbbcfe8fb11a24da1a6ab23c9205df"
+    insubdir = false
+    extract = false
+    rename = "monolith"
+    
     [resources.system_user]
 
     [resources.install_dir]

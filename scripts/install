@@ -35,6 +35,9 @@ ynh_setup_source --dest_dir="$install_dir"
 ynh_setup_source --dest_dir="/usr/bin/" --source_id="dlp"
 chmod +x "/usr/bin/yt-dlp"
 
+ynh_setup_source --dest_dir="/usr/bin/" --source_id="monolith"
+chmod +x "/usr/bin/monolith"
+
 #=================================================
 # APP INITIAL CONFIGURATION
 #=================================================
