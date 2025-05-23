@@ -13,9 +13,7 @@ source /usr/share/yunohost/helpers
 ynh_script_progression "Stopping $app's systemd service..."
 
 ynh_systemctl --service="$app-web" --action="stop"
-ynh_systemctl --service="$app-browser" --action="stop"
 ynh_systemctl --service="$app-workers" --action="stop"
-ynh_systemctl --service="meilisearch" --action="stop"
 
 #=================================================
 # MODIFY URL IN NGINX CONF
@@ -37,9 +35,7 @@ ynh_config_change_url_nginx
 ynh_script_progression "Starting $app's systemd service..."
 
 ynh_systemctl --service="$app-web" --action="start"
-ynh_systemctl --service="$app-browser" --action="start"
 ynh_systemctl --service="$app-workers" --action="start"
-ynh_systemctl --service="meilisearch" --action="start"
 
 #=================================================
 # END OF SCRIPT
