@@ -30,14 +30,12 @@ ynh_backup "$data_dir"
 ynh_backup "/etc/nginx/conf.d/$domain.d/$app.conf"
 
 # Backup the systemd service unit
-ynh_backup "/etc/systemd/system/$app.service"
+ynh_backup "/etc/systemd/system/${app}-workers.service"
+ynh_backup "/etc/systemd/system/${app}-web.service"
+ynh_backup "/etc/systemd/system/${app}-browser.service"
 
 # Backup the logrotate configuration
 ynh_backup "/etc/logrotate.d/$app"
-
-# Backup the Fail2Ban config
-ynh_backup "/etc/fail2ban/jail.d/$app.conf"
-ynh_backup "/etc/fail2ban/filter.d/$app.conf"
 
 #=================================================
 # BACKUP VARIOUS FILES

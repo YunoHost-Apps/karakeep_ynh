@@ -20,7 +20,9 @@ ynh_hide_warnings corepack enable && corepack prepare pnpm@latest --activate
 #=================================================
 
 release=$(curl -s https://api.github.com/repos/karakeep-app/karakeep/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
+
 secret==$(ynh_string_random --length=36)
+ynh_app_setting_set --key=secret --value=$secret
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -32,6 +34,9 @@ ynh_setup_source --dest_dir="$install_dir"
 
 ynh_setup_source --dest_dir="/usr/bin/" --source_id="dlp"
 chmod +x "/usr/bin/yt-dlp"
+
+ynh_setup_source --dest_dir="/usr/bin/" --source_id="monolith"
+chmod +x "/usr/bin/monolith"
 
 #=================================================
 # APP INITIAL CONFIGURATION
@@ -66,22 +71,15 @@ ynh_config_add_nginx
 ynh_config_add_systemd --service="${app}-browser" --template="karakeep-browser.service"
 ynh_config_add_systemd --service="${app}-web" --template="karakeep-web.service"
 ynh_config_add_systemd --service="${app}-workers" --template="karakeep-workers.service"
-#ynh_config_add_systemd --service="meilisearch" --template="meilisearch.service"
 
 yunohost service add "${app}-workers" --description="Bookmark-everything app" --log="/var/log/$app/${app}-workers.log"
 yunohost service add "${app}-web" --description="Bookmark-everything app" --log="/var/log/$app/${app}-web.log"
 yunohost service add "${app}-browser" --description="Bookmark-everything app" --log="/var/log/$app/$app.log"
 
-#yunohost service add "meilisearch" --description="Bookmark-everything app" --log="/var/log/$app/$app.log"
-
 #=================================================
 # INSTALL KARAKEEP
 #=================================================
 ynh_script_progression "Installing the app..."
-
-#pushd "$install_dir"
-#	ynh_hide_warnings npm install -g corepack@0.31.0
-#popd
 
 pushd "$install_dir/apps/web"
 	export NEXT_TELEMETRY_DISABLED=1
@@ -103,6 +101,8 @@ popd
 pushd "$install_dir/packages/db"
   	ynh_hide_warnings pnpm migrate
 popd
+
+echo "$release" >$install_dir/version.txt
 
 #=================================================
 # START SYSTEMD SERVICE

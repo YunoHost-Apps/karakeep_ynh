@@ -7,8 +7,15 @@
 source _common.sh
 source /usr/share/yunohost/helpers
 
-
 release=$(curl -s https://api.github.com/repos/karakeep-app/karakeep/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
+
+#=================================================
+# INSTALL DEPENDENCIES
+#=================================================
+ynh_script_progression "Installing dependencies..."
+
+ynh_nodejs_install
+ynh_hide_warnings corepack enable && corepack prepare pnpm@latest --activate
 
 #=================================================
 # STOP SYSTEMD SERVICE
@@ -16,9 +23,7 @@ release=$(curl -s https://api.github.com/repos/karakeep-app/karakeep/releases/la
 ynh_script_progression "Stopping $app's systemd service..."
 
 ynh_systemctl --service="$app-web" --action="stop"
-ynh_systemctl --service="$app-browser" --action="stop"
 ynh_systemctl --service="$app-workers" --action="stop"
-ynh_systemctl --service="meilisearch" --action="stop"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -41,20 +46,52 @@ ynh_script_progression "Upgrading system configurations related to $app..."
 
 ynh_config_add_nginx
 
-ynh_config_add_systemd
+# Create a dedicated systemd config
+ynh_config_add_systemd --service="${app}-browser" --template="karakeep-browser.service"
+ynh_config_add_systemd --service="${app}-web" --template="karakeep-web.service"
+ynh_config_add_systemd --service="${app}-workers" --template="karakeep-workers.service"
+#ynh_config_add_systemd --service="meilisearch" --template="meilisearch.service"
 
-yunohost service add "$app" --description="Bookmark-everything app" --log="/var/log/$app/$app.log"
+yunohost service add "${app}-workers" --description="Bookmark-everything app" --log="/var/log/$app/${app}-workers.log"
+yunohost service add "${app}-web" --description="Bookmark-everything app" --log="/var/log/$app/${app}-web.log"
+yunohost service add "${app}-browser" --description="Bookmark-everything app" --log="/var/log/$app/$app.log"
+#yunohost service add "meilisearch" --description="Bookmark-everything app" --log="/var/log/$app/$app.log"
 
-ynh_config_add_logrotate
+#=================================================
+# INSTALL KARAKEEP
+#=================================================
+ynh_script_progression "Installing the app..."
 
-ynh_config_add_fail2ban --logpath="/var/log/nginx/${domain}-error.log" --failregex="Regex to match into the log for a failed login"
+pushd "$install_dir/apps/web"
+	export NEXT_TELEMETRY_DISABLED=1
+	export PUPPETEER_SKIP_DOWNLOAD="true"
+	export CI="true"
+  	ynh_hide_warnings pnpm install --frozen-lockfile
+  	ynh_hide_warnings pnpm build
+popd
+
+pushd "$install_dir/apps/workers"
+  	ynh_hide_warnings pnpm install --frozen-lockfile
+popd
+
+pushd "$install_dir/apps/cli"
+  	ynh_hide_warnings pnpm install --frozen-lockfile
+  	ynh_hide_warnings pnpm build
+popd
+
+pushd "$install_dir/packages/db"
+  	ynh_hide_warnings pnpm migrate
+popd
+
+echo "$release" >$install_dir/version.txt
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemctl --service="$app" --action="start"
+ynh_systemctl --service="$app-web" --action="start"
+ynh_systemctl --service="$app-workers" --action="start"
 
 #=================================================
 # END OF SCRIPT

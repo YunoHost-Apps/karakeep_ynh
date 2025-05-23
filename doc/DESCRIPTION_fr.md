@@ -1,1 +1,1 @@
-Ceci est une fausse description des fonctionalités de l'app
+Karakeep (anciennement Hoarder) est une application auto-hébergeable de bookmark-tout avec une touche d'IA pour les accumulateurs de données.
