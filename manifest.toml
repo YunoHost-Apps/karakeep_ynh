@@ -70,4 +70,4 @@ ram.runtime = "50M"
     browser.default = 9222
 
     [resources.apt]
-    packages = "graphicsmagick, ghostscript, build-essential, software-properties-common, chromium"
+    packages = "graphicsmagick, ghostscript, build-essential, software-properties-common, chromium, sqlite3"
