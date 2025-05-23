@@ -6,7 +6,7 @@ After=network.target
 User=root
 Group=root
 Restart=on-failure
-ExecStart=/usr/bin/chromium --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --remote-debugging-address=localhost --remote-debugging-port=__PORT_BROWSER__ --hide-scrollbars
+ExecStart=/usr/bin/chromium --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --remote-debugging-address=127.0.0.1 --remote-debugging-port=__PORT__ --hide-scrollbars
 TimeoutStopSec=5
 SyslogIdentifier=__APP__-browser
 

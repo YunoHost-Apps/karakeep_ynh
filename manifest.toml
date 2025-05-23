@@ -72,9 +72,6 @@ ram.runtime = "50M"
     main.url = "/"
 
     [resources.ports]
-    web.default = 3000
-    meili.default = 7700
-    browser.default = 9222
 
     [resources.apt]
     packages = "graphicsmagick, ghostscript, build-essential, software-properties-common, chromium, sqlite3"
