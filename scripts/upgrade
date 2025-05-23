@@ -39,6 +39,9 @@ ynh_script_progression "Updating $app's configuration files..."
 
 ynh_config_add --template=".env" --destination="$install_dir/karakeep.env"
 
+chmod 600 "$install_dir/karakeep.env"
+chown "$app:$app" "$install_dir/karakeep.env"
+
 #=================================================
 # REAPPLY SYSTEM CONFIGURATION
 #=================================================
