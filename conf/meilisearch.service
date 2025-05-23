@@ -1,0 +1,32 @@
+[Unit]
+Description=MeiliSearch is a RESTful search API
+Documentation=https://docs.meilisearch.com/
+After=network.target
+
+[Service]
+User=meilisearch
+Group=meilisearch
+Restart=on-failure
+WorkingDirectory=${M_DATA_DIR}
+ExecStart=/usr/bin/meilisearch --config-file-path ${M_CONFIG_FILE}
+NoNewPrivileges=true
+ProtectHome=true
+ReadWritePaths=${M_DATA_DIR}
+ProtectSystem=full
+ProtectHostname=true
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectKernelLogs=true
+ProtectClock=true
+LockPersonality=true
+RestrictRealtime=yes
+RestrictNamespaces=yes
+MemoryDenyWriteExecute=yes
+PrivateDevices=yes
+PrivateTmp=true
+CapabilityBoundingSet=
+RemoveIPC=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,53 @@
+#!/bin/bash
+
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+# Keep this path for calling _common.sh inside the execution's context of backup and restore scripts
+source ../settings/scripts/_common.sh
+source /usr/share/yunohost/helpers
+
+ynh_print_info "Declaring files to be backed up..."
+
+#=================================================
+# BACKUP THE APP MAIN DIR
+#=================================================
+
+ynh_backup "$install_dir"
+
+#=================================================
+# BACKUP THE DATA DIR
+#=================================================
+
+ynh_backup "$data_dir"
+
+#=================================================
+# BACKUP SYSTEM CONFIGURATION
+#=================================================
+
+# Backup the NGINX configuration
+ynh_backup "/etc/nginx/conf.d/$domain.d/$app.conf"
+
+# Backup the systemd service unit
+ynh_backup "/etc/systemd/system/$app.service"
+
+# Backup the logrotate configuration
+ynh_backup "/etc/logrotate.d/$app"
+
+# Backup the Fail2Ban config
+ynh_backup "/etc/fail2ban/jail.d/$app.conf"
+ynh_backup "/etc/fail2ban/filter.d/$app.conf"
+
+#=================================================
+# BACKUP VARIOUS FILES
+#=================================================
+
+# NB: /var/log is not backuped during safety-backup-before-upgrades, same as $data_dir
+ynh_backup "/var/log/$app/"
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_print_info "Backup script completed for $app. (YunoHost will then actually copy those files to the archive)."

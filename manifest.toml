@@ -1,0 +1,73 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/main/schemas/manifest.v2.schema.json
+
+packaging_format = 2
+
+id = "karakeep"
+name = "Karakeep"
+description.en = "Bookmark-everything app (links, notes and images)"
+description.fr = "Expliquez en *quelques* (10~15) mots l'utilité de l'app ou ce qu'elle fait (l'objectif est de donner une idée grossière pour des utilisateurs qui naviguent dans un catalogue de 100+ apps)"
+
+version = "0.24.1~ynh1"
+
+maintainers = ["eric_G"]
+
+[upstream]
+license = "AGPL-3.0"
+website = "https://karakeep.app/"
+demo = "https://try.karakeep.app/signin"
+admindoc = "https://docs.karakeep.app/Installation/debuntu"
+code = "https://github.com/karakeep-app/karakeep"
+
+[integration]
+yunohost = ">= 12.0.9"
+helpers_version = "2.1"
+architectures = "all"
+multi_instance = true
+
+ldap = false
+
+sso = false
+
+disk = "50M"
+ram.build = "50M"
+ram.runtime = "50M"
+
+[install]
+    [install.domain]
+    type = "domain"
+
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+
+[resources]
+
+    [resources.sources]
+
+    [resources.sources.main]
+    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.24.1.tar.gz"
+    sha256 = "c252df5a9d8e31d0fa805bef08f7654f13f6d76b590afc8f459ef7380f1862a0"
+
+    [resources.sources.dlp]
+    url = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux"
+    sha256 = "da18d12e96f56f942706eeae19898edb86fe1880785286d49e66d69e7b55c005"
+    insubdir = false
+    extract = false
+    rename = "yt-dlp"
+
+    [resources.system_user]
+
+    [resources.install_dir]
+
+    [resources.data_dir]
+
+    [resources.permissions]
+    main.url = "/"
+
+    [resources.ports]
+    web.default = 3000
+    meili.default = 7700
+    browser.default = 9222
+
+    [resources.apt]
+    packages = "graphicsmagick, ghostscript, build-essential, software-properties-common, chromium"
