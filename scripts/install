@@ -14,6 +14,8 @@ ynh_script_progression "Installing dependencies..."
 
 ynh_nodejs_install
 ynh_hide_warnings corepack enable && corepack prepare pnpm@latest --activate
+# https://github.com/karakeep-app/karakeep/issues/967
+npm install -g corepack@0.31.0
 
 #=================================================
 # INITIALIZE AND STORE SETTINGS
