@@ -104,6 +104,10 @@ popd
 
 echo "$release" >$install_dir/version.txt
 
+chmod -R 775 "$install_dir"
+chmod -R o-rwx "$install_dir"
+chown -R $app:$app "$install_dir"
+
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
