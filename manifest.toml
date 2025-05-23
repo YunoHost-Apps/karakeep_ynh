@@ -5,7 +5,7 @@ packaging_format = 2
 id = "karakeep"
 name = "Karakeep"
 description.en = "Bookmark-everything app (links, notes and images)"
-description.fr = "Expliquez en *quelques* (10~15) mots l'utilité de l'app ou ce qu'elle fait (l'objectif est de donner une idée grossière pour des utilisateurs qui naviguent dans un catalogue de 100+ apps)"
+description.fr = "Gestionnaire de favoris (liens, notes et images)"
 
 version = "0.24.1~ynh1"
 

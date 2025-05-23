@@ -66,12 +66,10 @@ ynh_config_add_nginx
 ynh_config_add_systemd --service="${app}-browser" --template="karakeep-browser.service"
 ynh_config_add_systemd --service="${app}-web" --template="karakeep-web.service"
 ynh_config_add_systemd --service="${app}-workers" --template="karakeep-workers.service"
-#ynh_config_add_systemd --service="meilisearch" --template="meilisearch.service"
 
 yunohost service add "${app}-workers" --description="Bookmark-everything app" --log="/var/log/$app/${app}-workers.log"
 yunohost service add "${app}-web" --description="Bookmark-everything app" --log="/var/log/$app/${app}-web.log"
 yunohost service add "${app}-browser" --description="Bookmark-everything app" --log="/var/log/$app/$app.log"
-#yunohost service add "meilisearch" --description="Bookmark-everything app" --log="/var/log/$app/$app.log"
 
 #=================================================
 # INSTALL KARAKEEP
