@@ -50,7 +50,7 @@ ram.runtime = "800M"
 
     [resources.sources.dlp]
     url = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux"
-    sha256 = "da18d12e96f56f942706eeae19898edb86fe1880785286d49e66d69e7b55c005"
+    sha256 = "4d898cf8cbf7235f269656b3231dbdf7348a4508e8e724c6cdfcb1ba099bf3a4"
     insubdir = false
     extract = false
     rename = "yt-dlp"
