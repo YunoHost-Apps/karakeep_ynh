@@ -88,28 +88,33 @@ export PUPPETEER_SKIP_DOWNLOAD="true"
 export CI="true"
 
 pushd "$install_dir/packages/db"
+	ynh_script_progression "Building the database..."
   	ynh_hide_warnings pnpm install --frozen-lockfile
 	ynh_hide_warnings pnpm dlx @vercel/ncc build migrate.ts -o /db_migrations
 	cp -R drizzle /db_migrations
 popd
 
 pushd "$install_dir/apps/web"
+	ynh_script_progression "Building the web..."
   	ynh_hide_warnings pnpm install --frozen-lockfile
   	ynh_hide_warnings pnpm exec next build --experimental-build-mode compile
 popd
 
 pushd "$install_dir/apps/workers"
+	ynh_script_progression "Building the workers..."
   	ynh_hide_warnings pnpm install --frozen-lockfile
 	ynh_hide_warnings pnpm build
-	ynh_hide_warnings pnpm deploy --node-linker=isolated --filter @karakeep/workers --prod /prod/workers
+	ynh_hide_warnings pnpm deploy --node-linker=isolated --filter @karakeep/workers --prod $install_dir/prod/workers
 popd
 
 pushd "$install_dir/apps/cli"
+	ynh_script_progression "Building the cli..."
   	ynh_hide_warnings pnpm install --frozen-lockfile
   	ynh_hide_warnings pnpm build
 popd
 
 pushd "$install_dir/apps/mcp"
+	ynh_script_progression "Building the mcp..."
 	ynh_hide_warnings pnpm install --frozen-lockfile
 	ynh_hide_warnings pnpm build
 popd
