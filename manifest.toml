@@ -68,6 +68,7 @@ ram.runtime = "800M"
     autoupdate.strategy = "latest_github_release"
     
     [resources.system_user]
+    allow_email = true
 
     [resources.install_dir]
 
@@ -75,6 +76,11 @@ ram.runtime = "800M"
 
     [resources.permissions]
     main.url = "/"
+
+    api.url = "/admin"
+    api.allowed = "admins"
+    api.show_tile = false
+    api.protected = true
 
     [resources.ports]
     web.default = 3000

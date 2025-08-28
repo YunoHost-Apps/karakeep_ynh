@@ -107,8 +107,8 @@ popd
 
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
+	ynh_hide_warnings pnpm add better-sqlite3
 	ynh_hide_warnings pnpm build
-	ynh_hide_warnings pnpm deploy --node-linker=isolated --filter @karakeep/workers --prod "$install_dir/apps/workers/prod/"
 popd
 
 pushd "$install_dir/apps/cli"
@@ -123,13 +123,20 @@ popd
 
 echo "$release" >$install_dir/version.txt
 
-pushd "$install_dir/apps/workers/prod"
-	ynh_hide_warnings pnpm add better-sqlite3 dotenv
-popd
-
 #remove unneeded files
 ynh_safe_rm "$install_dir/apps/mobile"
 ynh_safe_rm "$install_dir/apps/landing"
+ynh_safe_rm "$install_dir/apps/web/.next/cache"
+ynh_safe_rm "$install_dir/charts"
+ynh_safe_rm "$install_dir/.claude"
+ynh_safe_rm "$install_dir/.husky"
+ynh_safe_rm "$install_dir/.github"
+ynh_safe_rm "$install_dir/kubernetes"
+ynh_safe_rm "$install_dir/docker"
+ynh_safe_rm "$install_dir/tooling"
+ynh_safe_rm "$install_dir/screenshots"
+ynh_safe_rm "$install_dir/docs"
+ynh_safe_rm "$install_dir/patches"
 
 chmod -R 775 "$install_dir"
 chmod -R o-rwx "$install_dir"
@@ -144,10 +151,6 @@ ynh_script_progression "Starting $app's systemd service..."
 ynh_systemctl --service="${app}-workers" --action="start"
 ynh_systemctl --service="${app}-web" --action="start"
 ynh_systemctl --service="${app}-browser" --action="start"
-
-#pushd "$install_dir/db_migrations"
-#	ynh_hide_warnings exec node index.js
-#popd
 
 #=================================================
 # END OF SCRIPT
