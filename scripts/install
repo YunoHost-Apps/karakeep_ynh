@@ -96,9 +96,10 @@ pushd "$install_dir/packages/db"
 	ynh_script_progression "Building the database..."
 	ynh_hide_warnings pnpm dlx @vercel/ncc build migrate.ts -o $install_dir/db_migrations
 	cp -R drizzle $install_dir/db_migrations
-		pushd "$install_dir/db_migrations"
-		exec node index.js
-		popd
+popd
+
+pushd "$install_dir/db_migrations"
+	ynh_hide_warnings exec node index.js
 popd
 
 pushd "$install_dir/apps/web"
