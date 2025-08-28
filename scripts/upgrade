@@ -30,17 +30,17 @@ ynh_systemctl --service="$app-workers" --action="stop"
 #=================================================
 ynh_script_progression "Upgrading source files..."
 
-ynh_setup_source --dest_dir="$install_dir" --full_replace --keep="karakeep.env"
+ynh_setup_source --dest_dir="$install_dir" --full_replace --keep="db"
 
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
 ynh_script_progression "Updating $app's configuration files..."
 
-ynh_config_add --template=".env" --destination="$install_dir/karakeep.env"
+ynh_config_add --template=".env" --destination="$install_dir/.env"
 
-chmod 600 "$install_dir/karakeep.env"
-chown "$app:$app" "$install_dir/karakeep.env"
+chmod 600 "$install_dir/.env"
+chown "$app:$app" "$install_dir/.env"
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATION
@@ -63,28 +63,62 @@ yunohost service add "${app}-browser" --description="Bookmark-everything app" --
 #=================================================
 ynh_script_progression "Installing the app..."
 
-pushd "$install_dir/apps/web"
-	export NEXT_TELEMETRY_DISABLED=1
-	export PUPPETEER_SKIP_DOWNLOAD="true"
-	export CI="true"
+export NEXT_TELEMETRY_DISABLED=1
+export PUPPETEER_SKIP_DOWNLOAD="true"
+export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+export CI="true"
+export DATA_DIR=$install_dir/db
+export NEXTAUTH_SECRET=$secret
+
+mkdir "$install_dir/db"
+
+pushd "$install_dir"
   	ynh_hide_warnings pnpm install --frozen-lockfile
-  	ynh_hide_warnings pnpm build
+	ynh_hide_warnings pnpm run db:migrate
+popd
+
+pushd "$install_dir/apps/web"
+	ynh_script_progression "Building the web..."
+  	ynh_hide_warnings pnpm exec next build --experimental-build-mode compile
 popd
 
 pushd "$install_dir/apps/workers"
-  	ynh_hide_warnings pnpm install --frozen-lockfile
+	ynh_script_progression "Building the workers..."
+	ynh_hide_warnings pnpm add better-sqlite3 dotenv
+	ynh_hide_warnings pnpm build
 popd
 
 pushd "$install_dir/apps/cli"
-  	ynh_hide_warnings pnpm install --frozen-lockfile
+	ynh_script_progression "Building the cli..."
   	ynh_hide_warnings pnpm build
 popd
 
-pushd "$install_dir/packages/db"
-  	ynh_hide_warnings pnpm migrate
+pushd "$install_dir/apps/mcp"
+	ynh_script_progression "Building the mcp..."
+	ynh_hide_warnings pnpm build
 popd
 
 echo "$release" >$install_dir/version.txt
+
+#remove unneeded files
+ynh_safe_rm "$install_dir/apps/mobile"
+ynh_safe_rm "$install_dir/apps/landing"
+ynh_safe_rm "$install_dir/apps/web/.next/cache"
+ynh_safe_rm "$install_dir/charts"
+ynh_safe_rm "$install_dir/.claude"
+ynh_safe_rm "$install_dir/.husky"
+ynh_safe_rm "$install_dir/.github"
+ynh_safe_rm "$install_dir/kubernetes"
+ynh_safe_rm "$install_dir/docker"
+ynh_safe_rm "$install_dir/tooling"
+ynh_safe_rm "$install_dir/screenshots"
+ynh_safe_rm "$install_dir/docs"
+ynh_safe_rm "$install_dir/patches"
+
+chmod -R 775 "$install_dir"
+chmod -R o-rwx "$install_dir"
+chown -R $app:www-data "$install_dir"
+
 
 #=================================================
 # START SYSTEMD SERVICE
