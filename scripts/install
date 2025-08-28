@@ -104,7 +104,7 @@ popd
 
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
-	ynh_hide_warnings tsdown --bundle
+	ynh_hide_warnings pnpm exec tsdown --bundle
 popd
 
 pushd "$install_dir/apps/cli"
