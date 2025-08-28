@@ -98,10 +98,6 @@ pushd "$install_dir/packages/db"
 	cp -R drizzle $install_dir/db_migrations
 popd
 
-pushd "$install_dir/db_migrations"
-	ynh_hide_warnings exec node index.js
-popd
-
 pushd "$install_dir/apps/web"
 	ynh_script_progression "Building the web..."
   	ynh_hide_warnings pnpm exec next build --experimental-build-mode compile
@@ -121,6 +117,10 @@ popd
 pushd "$install_dir/apps/mcp"
 	ynh_script_progression "Building the mcp..."
 	ynh_hide_warnings pnpm build
+popd
+
+pushd "$install_dir/db_migrations"
+	ynh_hide_warnings exec node index.js
 popd
 
 echo "$release" >$install_dir/version.txt
