@@ -94,8 +94,8 @@ popd
 
 pushd "$install_dir/packages/db"
 	ynh_script_progression "Building the database..."
-	ynh_hide_warnings pnpm dlx @vercel/ncc build migrate.ts -o $install_dir/db_migrations
-	cp -R drizzle $install_dir/db_migrations
+	ynh_hide_warnings pnpm dlx @vercel/ncc build migrate.ts -o $install_dir/
+	cp -R drizzle $install_dir/
 popd
 
 pushd "$install_dir/apps/web"
@@ -106,7 +106,7 @@ popd
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
 	ynh_hide_warnings pnpm build
-	ynh_hide_warnings pnpm deploy --node-linker=isolated --filter @karakeep/workers --prod $install_dir/prod/workers
+	ynh_hide_warnings pnpm deploy --node-linker=isolated --filter @karakeep/workers --prod
 popd
 
 pushd "$install_dir/apps/cli"
@@ -117,10 +117,6 @@ popd
 pushd "$install_dir/apps/mcp"
 	ynh_script_progression "Building the mcp..."
 	ynh_hide_warnings pnpm build
-popd
-
-pushd "$install_dir/db_migrations"
-	ynh_hide_warnings exec node index.js
 popd
 
 echo "$release" >$install_dir/version.txt
@@ -138,6 +134,10 @@ ynh_script_progression "Starting $app's systemd service..."
 ynh_systemctl --service="${app}-workers" --action="start"
 ynh_systemctl --service="${app}-web" --action="start"
 ynh_systemctl --service="${app}-browser" --action="start"
+
+pushd "$install_dir/db_migrations"
+	ynh_hide_warnings exec node index.js
+popd
 
 #=================================================
 # END OF SCRIPT
