@@ -86,7 +86,6 @@ ynh_script_progression "Installing the app..."
 export NEXT_TELEMETRY_DISABLED=1
 export PUPPETEER_SKIP_DOWNLOAD="true"
 export CI="true"
-export NODE_ENV=production
 
 pushd "$install_dir/packages/db"
   	ynh_hide_warnings pnpm install --frozen-lockfile
