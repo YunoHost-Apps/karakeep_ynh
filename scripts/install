@@ -87,6 +87,7 @@ export NEXT_TELEMETRY_DISABLED=1
 export PUPPETEER_SKIP_DOWNLOAD="true"
 export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 export CI="true"
+export DATA_DIR=$install_dir/db
 
 pushd "$install_dir"
   	ynh_hide_warnings pnpm install --frozen-lockfile
@@ -114,6 +115,10 @@ pushd "$install_dir/apps/mcp"
 popd
 
 echo "$release" >$install_dir/version.txt
+
+#remove unneeded files
+ynh_safe_rm "$install_dir/apps/mobile"
+ynh_safe_rm "$install_dir/apps/landing"
 
 chmod -R 775 "$install_dir"
 chmod -R o-rwx "$install_dir"
