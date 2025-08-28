@@ -50,8 +50,8 @@ ram.runtime = "800M"
     autoupdate.strategy = "latest_github_release"
 
     [resources.sources.dlp]
-    url = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux"
-    sha256 = "4d898cf8cbf7235f269656b3231dbdf7348a4508e8e724c6cdfcb1ba099bf3a4"
+    url = "https://github.com/yt-dlp/yt-dlp/releases/download/2025.08.27/yt-dlp_linux"
+    sha256 = "546ed7fa4649f95831a8fe39edeecb1ea1462d44167b1c2cbef674abb9164fd0"
     insubdir = false
     extract = false
     rename = "yt-dlp"
