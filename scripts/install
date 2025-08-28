@@ -26,6 +26,9 @@ release=$(curl -s https://api.github.com/repos/karakeep-app/karakeep/releases/la
 secret==$(ynh_string_random --length=36)
 ynh_app_setting_set --key=secret --value=$secret
 
+# Set `service` settings to support `yunohost app shell` command
+ynh_app_setting_set --key=service --value="$app-web.service"
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
@@ -121,7 +124,7 @@ popd
 echo "$release" >$install_dir/version.txt
 
 pushd "$install_dir/apps/workers/prod"
-	ynh_hide_warnings pnpm add better-sqlite3
+	ynh_hide_warnings pnpm add better-sqlite3 dotenv
 popd
 
 #remove unneeded files
