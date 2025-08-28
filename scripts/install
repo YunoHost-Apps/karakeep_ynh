@@ -120,6 +120,10 @@ popd
 
 echo "$release" >$install_dir/version.txt
 
+pushd "$install_dir/apps/workers/prod"
+	ynh_hide_warnings pnpm add better-sqlite3
+popd
+
 #remove unneeded files
 ynh_safe_rm "$install_dir/apps/mobile"
 ynh_safe_rm "$install_dir/apps/landing"
