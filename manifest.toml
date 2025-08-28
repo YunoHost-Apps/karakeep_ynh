@@ -44,8 +44,10 @@ ram.runtime = "800M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.24.1.tar.gz"
-    sha256 = "c252df5a9d8e31d0fa805bef08f7654f13f6d76b590afc8f459ef7380f1862a0"
+    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.26.0.tar.gz"
+    sha256 = "218b7708d4e9c22b80002963b93e2f1e1258d36090c15b3ba218c4b77dd30199"
+
+    autoupdate.strategy = "latest_github_release"
 
     [resources.sources.dlp]
     url = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux"
@@ -54,12 +56,16 @@ ram.runtime = "800M"
     extract = false
     rename = "yt-dlp"
 
+    autoupdate.strategy = "latest_github_release"
+
     [resources.sources.monolith]
     url = "https://github.com/Y2Z/monolith/releases/download/v2.10.1/monolith-gnu-linux-x86_64"
     sha256 = "663ca914b078e91d5a854b4a07e913c613bbbcfe8fb11a24da1a6ab23c9205df"
     insubdir = false
     extract = false
     rename = "monolith"
+
+    autoupdate.strategy = "latest_github_release"
     
     [resources.system_user]
 
