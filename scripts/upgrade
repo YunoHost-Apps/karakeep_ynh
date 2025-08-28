@@ -101,6 +101,10 @@ popd
 echo "$release" >$install_dir/version.txt
 
 #remove unneeded files
+pushd $install_dir
+ynh_hide_warnings ynh_exec_as_app pnpm prune --prod --ignore-scripts
+ynh_hide_warnings ynh_exec_as_app pnpm store prune
+popd
 ynh_safe_rm "$install_dir/apps/mobile"
 ynh_safe_rm "$install_dir/apps/landing"
 ynh_safe_rm "$install_dir/apps/web/.next/cache"
