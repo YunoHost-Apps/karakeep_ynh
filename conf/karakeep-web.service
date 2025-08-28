@@ -7,10 +7,10 @@ After=network.target __APP__-workers.service
 User=__APP__
 Group=__APP__
 Restart=on-failure
-EnvironmentFile=__INSTALL_DIR__/karakeep.env
+EnvironmentFile=__INSTALL_DIR__/.env
 Environment="PATH=__PATH_WITH_NODEJS__"
 WorkingDirectory=__INSTALL_DIR__/apps/web
-ExecStart=__NODEJS_DIR__/npm start
+ExecStart=__NODEJS_DIR__/node .next/standalone/apps/web/server.js
 StandardOutput=file:/var/log/__APP__/__APP__-web.log
 StandardError=file:/var/log/__APP__/__APP__-web.log
 TimeoutStopSec=5

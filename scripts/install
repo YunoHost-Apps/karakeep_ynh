@@ -85,37 +85,40 @@ ynh_script_progression "Installing the app..."
 
 export NEXT_TELEMETRY_DISABLED=1
 export PUPPETEER_SKIP_DOWNLOAD="true"
+export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 export CI="true"
+
+pushd "$install_dir"
+  	ynh_hide_warnings pnpm install --frozen-lockfile
+popd
 
 pushd "$install_dir/packages/db"
 	ynh_script_progression "Building the database..."
-  	ynh_hide_warnings pnpm install --frozen-lockfile
-	ynh_hide_warnings pnpm dlx @vercel/ncc build migrate.ts -o /db_migrations
-	cp -R drizzle /db_migrations
+	ynh_hide_warnings pnpm dlx @vercel/ncc build migrate.ts -o $install_dir/db_migrations
+	cp -R drizzle $install_dir/db_migrations
+		pushd "$install_dir/db_migrations"
+		exec node index.js
+		popd
 popd
 
 pushd "$install_dir/apps/web"
 	ynh_script_progression "Building the web..."
-  	ynh_hide_warnings pnpm install --frozen-lockfile
   	ynh_hide_warnings pnpm exec next build --experimental-build-mode compile
 popd
 
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
-  	ynh_hide_warnings pnpm install --frozen-lockfile
 	ynh_hide_warnings pnpm build
 	ynh_hide_warnings pnpm deploy --node-linker=isolated --filter @karakeep/workers --prod $install_dir/prod/workers
 popd
 
 pushd "$install_dir/apps/cli"
 	ynh_script_progression "Building the cli..."
-  	ynh_hide_warnings pnpm install --frozen-lockfile
   	ynh_hide_warnings pnpm build
 popd
 
 pushd "$install_dir/apps/mcp"
 	ynh_script_progression "Building the mcp..."
-	ynh_hide_warnings pnpm install --frozen-lockfile
 	ynh_hide_warnings pnpm build
 popd
 
