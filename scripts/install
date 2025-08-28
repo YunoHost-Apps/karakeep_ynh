@@ -104,7 +104,7 @@ popd
 
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
-	ynh_hide_warnings pnpm add better-sqlite3 dotenv
+	ynh_hide_warnings pnpm install --prod --filter @karakeep/workers --node-linker=isolated
 	ynh_hide_warnings pnpm build
 popd
 
