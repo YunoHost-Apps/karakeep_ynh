@@ -90,11 +90,7 @@ export CI="true"
 
 pushd "$install_dir"
   	ynh_hide_warnings pnpm install --frozen-lockfile
-popd
-
-pushd "$install_dir/packages/db"
-	ynh_script_progression "Building the database..."
-	ynh_hide_warnings pnpm run migrate
+	ynh_hide_warnings pnp run db:migrate
 popd
 
 pushd "$install_dir/apps/web"
