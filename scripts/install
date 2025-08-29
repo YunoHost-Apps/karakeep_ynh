@@ -104,7 +104,8 @@ popd
 
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
-	ynh_hide_warnings ynh_exec_as_app pnpm exec next build --experimental-build-mode compile
+    ynh_hide_warnings ynh_exec_as_app pnpm add dotenv better-sqlite3 --save-prod
+	ynh_hide_warnings ynh_exec_as_app pnpm build
 	ynh_hide_warnings ynh_exec_as_app pnpm deploy --node-linker=isolated --filter @karakeep/workers --prod $install_dir/apps/workers/prod
 
 popd
@@ -122,6 +123,7 @@ popd
 echo "$release" >$install_dir/version.txt
 
 #remove unneeded files
+ynh_script_progression "Removing unneeded files..."
 pushd $install_dir
 ynh_hide_warnings ynh_exec_as_app CI=true pnpm prune --prod --ignore-scripts
 ynh_hide_warnings ynh_exec_as_app CI=true pnpm store prune --force
