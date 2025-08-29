@@ -104,7 +104,7 @@ popd
 
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
-	ynh_hide_warnings ynh_exec_as_app pnpm build
+	ynh_hide_warnings ynh_exec_as_app pnpm exec next build --experimental-build-mode compile
 	ynh_hide_warnings ynh_exec_as_app pnpm deploy --node-linker=isolated --filter @karakeep/workers --prod $install_dir/apps/workers/prod
 
 popd
