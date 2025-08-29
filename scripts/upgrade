@@ -71,29 +71,29 @@ export DATA_DIR=$install_dir/db
 export NEXTAUTH_SECRET=$secret
 
 pushd "$install_dir"
-  	ynh_hide_warnings pnpm install --frozen-lockfile
-	ynh_hide_warnings pnpm run db:migrate
+  	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile
+	ynh_hide_warnings ynh_exec_as_app pnpm run db:migrate
 popd
 
 pushd "$install_dir/apps/web"
 	ynh_script_progression "Building the web..."
-  	ynh_hide_warnings pnpm exec next build --experimental-build-mode compile
+  	ynh_hide_warnings ynh_exec_as_app pnpm exec next build --experimental-build-mode compile
 popd
 
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
-	ynh_hide_warnings pnpm build
-	ynh_hide_warnings pnpm deploy --node-linker=isolated --filter @karakeep/workers --prod $install_dir/apps/workers/prod
+	ynh_hide_warnings ynh_exec_as_app pnpm build
+	ynh_hide_warnings ynh_exec_as_app pnpm deploy --node-linker=isolated --filter @karakeep/workers --prod $install_dir/apps/workers/prod
 popd
 
 pushd "$install_dir/apps/cli"
 	ynh_script_progression "Building the cli..."
-  	ynh_hide_warnings pnpm build
+  	ynh_hide_warnings ynh_exec_as_app pnpm build
 popd
 
 pushd "$install_dir/apps/mcp"
 	ynh_script_progression "Building the mcp..."
-	ynh_hide_warnings pnpm build
+	ynh_hide_warnings ynh_exec_as_app pnpm build
 popd
 
 echo "$release" >$install_dir/version.txt
