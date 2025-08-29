@@ -106,7 +106,6 @@ pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
 	ynh_hide_warnings ynh_exec_as_app pnpm build
 	ynh_hide_warnings ynh_exec_as_app pnpm deploy --node-linker=isolated --filter @karakeep/workers --prod $install_dir/apps/workers/prod
-
 popd
 
 pushd "$install_dir/apps/cli"
@@ -136,7 +135,7 @@ ynh_safe_rm "$install_dir/tooling"
 ynh_safe_rm "$install_dir/screenshots"
 ynh_safe_rm "$install_dir/docs"
 ynh_safe_rm "$install_dir/patches"
-ynh_safe_rm "$install_dir/.local"
+#ynh_safe_rm "$install_dir/.local"
 ynh_safe_rm "$install_dir/.cache"
 
 chmod -R 775 "$install_dir"
