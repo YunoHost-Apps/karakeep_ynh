@@ -64,9 +64,9 @@ yunohost service add "${app}-browser" --description="Bookmark-everything app" --
 ynh_script_progression "Installing the app..."
 
 export NEXT_TELEMETRY_DISABLED=1
-export PUPPETEER_SKIP_DOWNLOAD="true"
+export PUPPETEER_SKIP_DOWNLOAD=true
 export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
-export CI="true"
+export CI=true
 export DATA_DIR=$install_dir/db
 export NEXTAUTH_SECRET=$secret
 
@@ -100,8 +100,8 @@ echo "$release" >$install_dir/version.txt
 
 #remove unneeded files
 pushd $install_dir
-ynh_hide_warnings ynh_exec_as_app pnpm prune --prod --ignore-scripts
-ynh_hide_warnings ynh_exec_as_app pnpm store prune --force
+ynh_hide_warnings ynh_exec_as_app CI=true pnpm prune --prod --ignore-scripts
+ynh_hide_warnings ynh_exec_as_app CI=true pnpm store prune --force
 popd
 ynh_safe_rm "$install_dir/apps/mobile"
 ynh_safe_rm "$install_dir/apps/landing"
