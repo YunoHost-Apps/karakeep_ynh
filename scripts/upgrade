@@ -70,8 +70,6 @@ export CI="true"
 export DATA_DIR=$install_dir/db
 export NEXTAUTH_SECRET=$secret
 
-mkdir "$install_dir/db"
-
 pushd "$install_dir"
   	ynh_hide_warnings pnpm install --frozen-lockfile
 	ynh_hide_warnings pnpm run db:migrate
