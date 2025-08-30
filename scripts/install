@@ -15,7 +15,7 @@ ynh_script_progression "Installing dependencies..."
 ynh_nodejs_install
 ynh_hide_warnings corepack enable && corepack prepare pnpm@latest --activate
 # https://github.com/karakeep-app/karakeep/issues/967
-#npm install -g corepack@0.31.0
+npm install -g corepack@0.31.0
 
 #=================================================
 # INITIALIZE AND STORE SETTINGS
@@ -84,7 +84,6 @@ yunohost service add "${app}-browser" --description="Bookmark-everything app" --
 ynh_script_progression "Installing the app..."
 
 export NEXT_TELEMETRY_DISABLED=1
-export PUPPETEER_SKIP_DOWNLOAD=true
 export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 export CI=true
 export DATA_DIR=$install_dir/db
@@ -135,8 +134,6 @@ ynh_safe_rm "$install_dir/tooling"
 ynh_safe_rm "$install_dir/screenshots"
 ynh_safe_rm "$install_dir/docs"
 ynh_safe_rm "$install_dir/patches"
-#ynh_safe_rm "$install_dir/.local"
-ynh_safe_rm "$install_dir/.cache"
 
 chmod -R 775 "$install_dir"
 chmod -R o-rwx "$install_dir"
