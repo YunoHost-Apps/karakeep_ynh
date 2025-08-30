@@ -12,7 +12,6 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression "Installing dependencies..."
 
-ynh_nodejs_install
 ynh_hide_warnings corepack enable && corepack prepare pnpm@latest --activate
 # https://github.com/karakeep-app/karakeep/issues/967
 npm install -g corepack@0.31.0
@@ -121,8 +120,7 @@ echo "$release" >$install_dir/version.txt
 #remove unneeded files
 ynh_script_progression "Removing unneeded files..."
 pushd $install_dir
-ynh_hide_warnings CI=true pnpm prune --prod --ignore-scripts
-ynh_hide_warnings CI=true pnpm store prune
+ynh_hide_warnings pnpm prune --prod --ignore-scripts
 popd
 ynh_safe_rm "$install_dir/apps/mobile"
 ynh_safe_rm "$install_dir/apps/landing"
