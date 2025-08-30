@@ -84,9 +84,8 @@ yunohost service add "${app}-browser" --description="Bookmark-everything app" --
 ynh_script_progression "Installing the app..."
 
 export NEXT_TELEMETRY_DISABLED=1
-export PUPPETEER_SKIP_DOWNLOAD="true"
 export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
-export CI="true"
+export CI=true
 export DATA_DIR=$install_dir/db
 export NEXTAUTH_SECRET=$secret
 
@@ -105,7 +104,6 @@ popd
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
 	ynh_hide_warnings pnpm build
-	ynh_hide_warnings pnpm deploy --node-linker=isolated --filter @karakeep/workers --prod $install_dir/apps/workers/prod
 popd
 
 pushd "$install_dir/apps/cli"
@@ -122,6 +120,10 @@ echo "$release" >$install_dir/version.txt
 
 #remove unneeded files
 ynh_script_progression "Removing unneeded files..."
+pushd $install_dir
+ynh_hide_warnings CI=true pnpm prune --prod --ignore-scripts
+ynh_hide_warnings CI=true pnpm store prune
+popd
 ynh_safe_rm "$install_dir/apps/mobile"
 ynh_safe_rm "$install_dir/apps/landing"
 ynh_safe_rm "$install_dir/apps/web/.next/cache"
@@ -135,6 +137,9 @@ ynh_safe_rm "$install_dir/tooling"
 ynh_safe_rm "$install_dir/screenshots"
 ynh_safe_rm "$install_dir/docs"
 ynh_safe_rm "$install_dir/patches"
+ynh_safe_rm "$install_dir/.local"
+ynh_safe_rm "$install_dir/.cache"
+
 
 chmod -R 775 "$install_dir"
 chmod -R o-rwx "$install_dir"
