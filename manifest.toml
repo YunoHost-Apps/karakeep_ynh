@@ -44,8 +44,8 @@ ram.runtime = "800M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.26.0.tar.gz"
-    sha256 = "218b7708d4e9c22b80002963b93e2f1e1258d36090c15b3ba218c4b77dd30199"
+    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.27.0.tar.gz"
+    sha256 = "b2dda5ae27fdbfbac154065fe61a28cc838b0abb8f3bf8c2d02f15d58dc8ee98"
 
     autoupdate.strategy = "latest_github_release"
 
