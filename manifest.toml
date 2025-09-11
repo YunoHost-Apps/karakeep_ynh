@@ -19,7 +19,7 @@ admindoc = "https://docs.karakeep.app/Installation/debuntu"
 code = "https://github.com/karakeep-app/karakeep"
 
 [integration]
-yunohost = ">= 12.0.9"
+yunohost = ">= 12.1.17"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = false
