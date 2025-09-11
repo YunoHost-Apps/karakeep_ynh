@@ -4,7 +4,6 @@
 # IMPORT GENERIC HELPERS
 #=================================================
 
-source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -22,12 +21,6 @@ ynh_script_progression "Updating NGINX web server configuration..."
 
 # this will most likely adjust NGINX config correctly
 ynh_config_change_url_nginx
-
-#=================================================
-# SPECIFIC MODIFICATIONS
-#=================================================
-
-## do any changes to files that reference specific installation domain/path, i.e. regenerate configs etc
 
 #=================================================
 # START SYSTEMD SERVICE
