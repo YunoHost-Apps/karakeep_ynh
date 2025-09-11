@@ -19,7 +19,7 @@ admindoc = "https://docs.karakeep.app/Installation/debuntu"
 code = "https://github.com/karakeep-app/karakeep"
 
 [integration]
-yunohost = ">= 12.0.9"
+yunohost = ">= 12.1.17"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = false
@@ -44,15 +44,19 @@ ram.runtime = "800M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.24.1.tar.gz"
-    sha256 = "c252df5a9d8e31d0fa805bef08f7654f13f6d76b590afc8f459ef7380f1862a0"
+    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.27.0.tar.gz"
+    sha256 = "b2dda5ae27fdbfbac154065fe61a28cc838b0abb8f3bf8c2d02f15d58dc8ee98"
+
+    autoupdate.strategy = "latest_github_release"
 
     [resources.sources.dlp]
-    url = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux"
-    sha256 = "4d898cf8cbf7235f269656b3231dbdf7348a4508e8e724c6cdfcb1ba099bf3a4"
+    url = "https://github.com/yt-dlp/yt-dlp/releases/download/2025.08.27/yt-dlp_linux"
+    sha256 = "546ed7fa4649f95831a8fe39edeecb1ea1462d44167b1c2cbef674abb9164fd0"
     insubdir = false
     extract = false
     rename = "yt-dlp"
+
+    autoupdate.strategy = "latest_github_release"
 
     [resources.sources.monolith]
     url = "https://github.com/Y2Z/monolith/releases/download/v2.10.1/monolith-gnu-linux-x86_64"
@@ -60,8 +64,11 @@ ram.runtime = "800M"
     insubdir = false
     extract = false
     rename = "monolith"
+
+    autoupdate.strategy = "latest_github_release"
     
     [resources.system_user]
+    allow_email = true
 
     [resources.install_dir]
 
@@ -70,9 +77,18 @@ ram.runtime = "800M"
     [resources.permissions]
     main.url = "/"
 
+    api.url = "/admin"
+    api.allowed = "admins"
+    api.show_tile = false
+    api.protected = true
+
     [resources.ports]
     web.default = 3000
     browser.default = 9222
 
     [resources.apt]
     packages = "graphicsmagick, ghostscript, build-essential, software-properties-common, chromium, sqlite3"
+
+    [resources.nodejs]
+    version = "22"
+    
