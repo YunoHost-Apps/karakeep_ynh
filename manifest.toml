@@ -7,7 +7,7 @@ name = "Karakeep"
 description.en = "Bookmark-everything app (links, notes and images)"
 description.fr = "Gestionnaire de favoris (liens, notes et images)"
 
-version = "0.24.1~ynh1"
+version = "0.24.1~ynh2"
 
 maintainers = ["eric_G"]
 
@@ -50,8 +50,8 @@ ram.runtime = "800M"
     autoupdate.strategy = "latest_github_release"
 
     [resources.sources.dlp]
-    url = "https://github.com/yt-dlp/yt-dlp/releases/download/2025.08.27/yt-dlp_linux"
-    sha256 = "546ed7fa4649f95831a8fe39edeecb1ea1462d44167b1c2cbef674abb9164fd0"
+    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.27.0.tar.gz"
+    sha256 = "b2dda5ae27fdbfbac154065fe61a28cc838b0abb8f3bf8c2d02f15d58dc8ee98"
     insubdir = false
     extract = false
     rename = "yt-dlp"
@@ -59,8 +59,8 @@ ram.runtime = "800M"
     autoupdate.strategy = "latest_github_release"
 
     [resources.sources.monolith]
-    url = "https://github.com/Y2Z/monolith/releases/download/v2.10.1/monolith-gnu-linux-x86_64"
-    sha256 = "663ca914b078e91d5a854b4a07e913c613bbbcfe8fb11a24da1a6ab23c9205df"
+    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.27.0.tar.gz"
+    sha256 = "b2dda5ae27fdbfbac154065fe61a28cc838b0abb8f3bf8c2d02f15d58dc8ee98"
     insubdir = false
     extract = false
     rename = "monolith"
