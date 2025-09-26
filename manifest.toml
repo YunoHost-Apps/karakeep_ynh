@@ -87,7 +87,7 @@ ram.runtime = "800M"
     browser.default = 9222
 
     [resources.apt]
-    packages = "graphicsmagick, ghostscript, build-essential, software-properties-common, chromium, sqlite3"
+    packages = "graphicsmagick, ghostscript, build-essential, chromium, sqlite3"
 
     [resources.nodejs]
     version = "22"
