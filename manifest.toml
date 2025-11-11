@@ -7,7 +7,7 @@ name = "Karakeep"
 description.en = "Bookmark-everything app (links, notes and images)"
 description.fr = "Gestionnaire de favoris (liens, notes et images)"
 
-version = "0.27.1~ynh1"
+version = "0.28.0~ynh1"
 
 maintainers = ["eric_G"]
 
@@ -44,14 +44,14 @@ ram.runtime = "800M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.27.1.tar.gz"
-    sha256 = "31ec0df5ff1cd7dd4bd675b096569c1418aa62d9d17f92c9a49ec7a995390225"
+    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.28.0.tar.gz"
+    sha256 = "f7a2de6822d9f68bbd367405ed29e15b79f6164dce61162ad81f53fbc5c603ca"
 
     autoupdate.strategy = "latest_github_release"
 
     [resources.sources.dlp]
-    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.27.1.tar.gz"
-    sha256 = "31ec0df5ff1cd7dd4bd675b096569c1418aa62d9d17f92c9a49ec7a995390225"
+    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.28.0.tar.gz"
+    sha256 = "f7a2de6822d9f68bbd367405ed29e15b79f6164dce61162ad81f53fbc5c603ca"
     insubdir = false
     extract = false
     rename = "yt-dlp"
@@ -59,8 +59,8 @@ ram.runtime = "800M"
     autoupdate.strategy = "latest_github_release"
 
     [resources.sources.monolith]
-    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.27.1.tar.gz"
-    sha256 = "31ec0df5ff1cd7dd4bd675b096569c1418aa62d9d17f92c9a49ec7a995390225"
+    url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.28.0.tar.gz"
+    sha256 = "f7a2de6822d9f68bbd367405ed29e15b79f6164dce61162ad81f53fbc5c603ca"
     insubdir = false
     extract = false
     rename = "monolith"
