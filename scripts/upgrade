@@ -74,7 +74,7 @@ pushd "$install_dir"
 popd
 
 pushd "$install_dir/apps/web"
-	ynh_script_progression "Building the web..."
+	ynh_script_progression "Building the Web..."
   	ynh_hide_warnings ynh_exec_as_app pnpm exec next build --experimental-build-mode compile
 popd
 
@@ -85,12 +85,12 @@ pushd "$install_dir/apps/workers"
 popd
 
 pushd "$install_dir/apps/cli"
-	ynh_script_progression "Building the cli..."
+	ynh_script_progression "Building the CLI..."
   	ynh_hide_warnings ynh_exec_as_app pnpm build
 popd
 
 pushd "$install_dir/apps/mcp"
-	ynh_script_progression "Building the mcp..."
+	ynh_script_progression "Building the MCP..."
 	ynh_hide_warnings ynh_exec_as_app pnpm build
 popd
 
@@ -98,9 +98,10 @@ echo "$release" >$install_dir/version.txt
 
 #remove unneeded files
 pushd $install_dir
-ynh_hide_warnings ynh_exec_as_app CI=true pnpm prune --prod --ignore-scripts
-ynh_hide_warnings ynh_exec_as_app CI=true pnpm store prune --force
+	ynh_hide_warnings ynh_exec_as_app CI=true pnpm prune --prod --ignore-scripts
+	ynh_hide_warnings ynh_exec_as_app CI=true pnpm store prune --force
 popd
+
 ynh_safe_rm "$install_dir/apps/mobile"
 ynh_safe_rm "$install_dir/apps/landing"
 ynh_safe_rm "$install_dir/apps/web/.next/cache"

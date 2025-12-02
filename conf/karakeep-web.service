@@ -1,5 +1,5 @@
 [Unit]
-Description=Karakeep web
+Description=Karakeep Web
 Wants=network.target __APP__-workers.service
 After=network.target __APP__-workers.service
 
