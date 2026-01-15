@@ -74,23 +74,19 @@ pushd "$install_dir"
 popd
 
 pushd "$install_dir/apps/web"
-	ynh_script_progression "Building the Web..."
   	ynh_hide_warnings ynh_exec_as_app pnpm exec next build --experimental-build-mode compile
 popd
 
 pushd "$install_dir/apps/workers"
-	ynh_script_progression "Building the workers..."
 	ynh_hide_warnings ynh_exec_as_app pnpm build
 	ynh_hide_warnings ynh_exec_as_app pnpm deploy --node-linker=isolated --filter @karakeep/workers --prod $install_dir/apps/workers/prod
 popd
 
 pushd "$install_dir/apps/cli"
-	ynh_script_progression "Building the CLI..."
   	ynh_hide_warnings ynh_exec_as_app pnpm build
 popd
 
 pushd "$install_dir/apps/mcp"
-	ynh_script_progression "Building the MCP..."
 	ynh_hide_warnings ynh_exec_as_app pnpm build
 popd
 
