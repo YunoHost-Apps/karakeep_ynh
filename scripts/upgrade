@@ -81,7 +81,7 @@ export NEXTAUTH_SECRET=$secret
 
 pushd "$install_dir"
   	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile
-	ynh_hide_warnings ynh_exec_as_app pnpm run db:migrate
+	ynh_hide_warnings ynh_exec_as_app DATA_DIR=$data_dir/db pnpm run db:migrate
 popd
 
 pushd "$install_dir/apps/web"
@@ -107,7 +107,6 @@ echo "$release" >$install_dir/version.txt
 pushd $install_dir
 	ynh_hide_warnings ynh_exec_as_app CI=true pnpm prune --prod --ignore-scripts
 	ynh_hide_warnings ynh_exec_as_app CI=true pnpm store prune --force
-	ynh_hide_warnings ynh_exec_as_app DATA_DIR=$data_dir/db pnpm run db:migrate
 popd
 
 ynh_safe_rm "$install_dir/apps/mobile"
