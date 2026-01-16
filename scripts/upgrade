@@ -107,6 +107,7 @@ echo "$release" >$install_dir/version.txt
 pushd $install_dir
 	ynh_hide_warnings ynh_exec_as_app CI=true pnpm prune --prod --ignore-scripts
 	ynh_hide_warnings ynh_exec_as_app CI=true pnpm store prune --force
+	ynh_hide_warnings ynh_exec_as_app DATA_DIR=$data_dir/db pnpm run db:migrate
 popd
 
 ynh_safe_rm "$install_dir/apps/mobile"
@@ -121,7 +122,7 @@ ynh_safe_rm "$install_dir/docker"
 ynh_safe_rm "$install_dir/tooling"
 ynh_safe_rm "$install_dir/screenshots"
 ynh_safe_rm "$install_dir/docs"
-ynh_safe_rm "$install_dir/patches"
+#ynh_safe_rm "$install_dir/patches"
 
 chmod -R 775 "$install_dir"
 chmod -R o-rwx "$install_dir"
