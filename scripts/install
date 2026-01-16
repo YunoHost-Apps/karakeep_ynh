@@ -84,7 +84,7 @@ ynh_script_progression "Installing the app..."
 export NEXT_TELEMETRY_DISABLED=1
 export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 export CI=true
-export DATA_DIR=$install_dir/db
+export DATA_DIR=$data_dir/db
 export NEXTAUTH_SECRET=$secret
 
 mkdir "$install_dir/db"
