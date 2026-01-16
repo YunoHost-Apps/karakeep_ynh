@@ -90,6 +90,7 @@ export NEXTAUTH_SECRET=$secret
 mkdir "$install_dir/db"
 
 pushd "$install_dir"
+    pnpm config set fetch-timeout 300000 
   	ynh_hide_warnings pnpm install --frozen-lockfile
 	ynh_hide_warnings pnpm run db:migrate
 popd
