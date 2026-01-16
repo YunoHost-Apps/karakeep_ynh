@@ -22,13 +22,24 @@ ynh_script_progression "Stopping $app's systemd service..."
 
 ynh_systemctl --service="$app-web" --action="stop"
 ynh_systemctl --service="$app-workers" --action="stop"
+ynh_systemctl --service="$app-browser" --action="stop"
+
+# Ensure backward compatibility
+mkdir -p "$data_dir/db"
+# We check if the DB exists there AND if it's not already in the new location
+if [ -f "$install_dir/db/db.db" ] && [ ! -f "$data_dir/db/db.db" ]; then
+    ynh_script_progression "Migrating database from install_dir to data_dir..."
+    
+    cp -r "$install_dir/db/." "$data_dir/db/"
+
+fi
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression "Upgrading source files..."
 
-ynh_setup_source --dest_dir="$install_dir" --full_replace --keep="db"
+ynh_setup_source --dest_dir="$install_dir" --full_replace
 
 #=================================================
 # UPDATE A CONFIG FILE
