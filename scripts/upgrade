@@ -31,7 +31,7 @@ if [ -f "$install_dir/db/db.db" ] && [ ! -f "$data_dir/db/db.db" ]; then
     ynh_script_progression "Migrating database from install_dir to data_dir..."
     
     cp -r "$install_dir/db/." "$data_dir/db/"
-
+    chown -R $app:$app "$data_dir"
 fi
 
 #=================================================
@@ -127,6 +127,7 @@ chmod -R 775 "$install_dir"
 chmod -R o-rwx "$install_dir"
 chown -R $app:www-data "$install_dir"
 
+chown -R $app:$app "$data_dir"
 
 #=================================================
 # START SYSTEMD SERVICE
