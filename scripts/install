@@ -87,7 +87,7 @@ export CI=true
 export DATA_DIR=$data_dir/db
 export NEXTAUTH_SECRET=$secret
 
-mkdir "$install_dir/db"
+mkdir -p "$data_dir/db"
 
 pushd "$install_dir"
   	ynh_hide_warnings pnpm install --frozen-lockfile
