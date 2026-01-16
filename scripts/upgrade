@@ -135,6 +135,7 @@ ynh_script_progression "Starting $app's systemd service..."
 
 ynh_systemctl --service="$app-web" --action="start"
 ynh_systemctl --service="$app-workers" --action="start"
+ynh_systemctl --service="${app}-browser" --action="start"
 
 #=================================================
 # END OF SCRIPT
