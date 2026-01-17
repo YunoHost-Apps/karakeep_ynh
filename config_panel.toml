@@ -14,16 +14,19 @@ name.fr = "Configuration de Karakeep"
         type = "url"
         help.en = "Default is http://127.0.0.1:11434"
         help.fr = "L'addresse par défaut est http://127.0.0.1:11434"
+        default = "http://127.0.0.1:11434"
 
         [main.config.inference_enable_auto_tagging]
         ask.en = "Whether automatic AI tagging is enabled or disabled"
         ask.fr = "Que le balisage automatique par IA soit activé ou désactivé"
         type = "boolean"
+        default = false
 
         [main.config.inference_enable_auto_summarization]
         ask.en = "Whether automatic AI summarization is enabled or disabled"
         ask.fr = "Que la synthèse automatique par IA soit activé ou désactivé"
         type = "boolean"
+        default = false
 
         [main.config.inference_text_model]
         ask.en = "Text Inference Model"
@@ -103,15 +106,18 @@ name.fr = "Configuration de Karakeep"
         type = "url"
         help.en = "Format: http://URL:PORT"
         help.fr = "Format : http://URL:PORT"
+        default = ""
 
         [main.external_services.meili_master_key]
         ask.en = "MeiliSearch Master Key"
         ask.fr = "Clé maître MeiliSearch"
-        type = "password"
+        type = "string"
+        default = ""
 
         [main.external_services.openai_api_key]
         ask.en = "OpenAI API Key"
         ask.fr = "Clé API OpenAI"
-        type = "password"
+        type = "string"
         help.en = "Required if using OpenAI models for embeddings"
         help.fr = "Requis si vous utilisez les modèles OpenAI pour les embeddings"
+        default = ""
