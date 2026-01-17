@@ -22,13 +22,24 @@ ynh_script_progression "Stopping $app's systemd service..."
 
 ynh_systemctl --service="$app-web" --action="stop"
 ynh_systemctl --service="$app-workers" --action="stop"
+ynh_systemctl --service="$app-browser" --action="stop"
+
+# Ensure backward compatibility
+mkdir -p "$data_dir/db"
+# We check if the DB exists there AND if it's not already in the new location
+if [ -f "$install_dir/db/db.db" ] && [ ! -f "$data_dir/db/db.db" ]; then
+    ynh_script_progression "Migrating database from install_dir to data_dir..."
+    
+    cp -r "$install_dir/db/." "$data_dir/db/"
+    chown -R $app:$app "$data_dir"
+fi
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression "Upgrading source files..."
 
-ynh_setup_source --dest_dir="$install_dir" --full_replace --keep="db"
+ynh_setup_source --dest_dir="$install_dir" --full_replace
 
 #=================================================
 # UPDATE A CONFIG FILE
@@ -65,12 +76,12 @@ export NEXT_TELEMETRY_DISABLED=1
 export PUPPETEER_SKIP_DOWNLOAD=true
 export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 export CI=true
-export DATA_DIR=$install_dir/db
+export DATA_DIR=$data_dir/db
 export NEXTAUTH_SECRET=$secret
 
 pushd "$install_dir"
   	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile
-	ynh_hide_warnings ynh_exec_as_app pnpm run db:migrate
+	ynh_hide_warnings ynh_exec_as_app DATA_DIR=$data_dir/db pnpm run db:migrate
 popd
 
 pushd "$install_dir/apps/web"
@@ -110,12 +121,13 @@ ynh_safe_rm "$install_dir/docker"
 ynh_safe_rm "$install_dir/tooling"
 ynh_safe_rm "$install_dir/screenshots"
 ynh_safe_rm "$install_dir/docs"
-ynh_safe_rm "$install_dir/patches"
+#ynh_safe_rm "$install_dir/patches"
 
 chmod -R 775 "$install_dir"
 chmod -R o-rwx "$install_dir"
 chown -R $app:www-data "$install_dir"
 
+chown -R $app:$app "$data_dir"
 
 #=================================================
 # START SYSTEMD SERVICE
@@ -124,6 +136,7 @@ ynh_script_progression "Starting $app's systemd service..."
 
 ynh_systemctl --service="$app-web" --action="start"
 ynh_systemctl --service="$app-workers" --action="start"
+ynh_systemctl --service="${app}-browser" --action="start"
 
 #=================================================
 # END OF SCRIPT
