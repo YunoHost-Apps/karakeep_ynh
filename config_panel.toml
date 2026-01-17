@@ -93,23 +93,23 @@ name.fr = "Configuration de Karakeep"
         default = 1
 
     # --- External Services Section ---
-    [main.services]
+    [main.external_services]
     name.en = "External Services"
     name.fr = "Services externes"
 
-        [main.services.meili_addr]
+        [main.external_services.meili_addr]
         ask.en = "MeiliSearch URL"
         ask.fr = "URL MeiliSearch"
         type = "url"
         help.en = "Format: http://URL:PORT"
         help.fr = "Format : http://URL:PORT"
 
-        [main.services.meili_master_key]
+        [main.external_services.meili_master_key]
         ask.en = "MeiliSearch Master Key"
         ask.fr = "Clé maître MeiliSearch"
         type = "password"
 
-        [main.services.openai_api_key]
+        [main.external_services.openai_api_key]
         ask.en = "OpenAI API Key"
         ask.fr = "Clé API OpenAI"
         type = "password"
