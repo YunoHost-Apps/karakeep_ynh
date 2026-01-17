@@ -46,6 +46,30 @@ ynh_setup_source --dest_dir="$install_dir" --full_replace
 #=================================================
 ynh_script_progression "Updating $app's configuration files..."
 
+	# --- Config panel Defaults ---
+	# Models
+	ynh_app_setting_set_default --key=inference_text_model --value="llama3.2"
+	ynh_app_setting_set_default --key=inference_image_model --value="llava"
+	ynh_app_setting_set_default --key=inference_lang --value="english"
+	ynh_app_setting_set_default --key=embedding_text_model --value="text-embedding-3-small"
+	
+	# Performance
+	ynh_app_setting_set_default --key=inference_context_length --value="2048"
+	ynh_app_setting_set_default --key=inference_job_timeout_sec --value="300"
+	ynh_app_setting_set_default --key=inference_num_workers --value="1"
+	ynh_app_setting_set_default --key=asset_preprocessing_num_workers --value="1"
+	
+	# External Services
+	# We set these to empty by default so the variable exists in the script context
+	ynh_app_setting_set_default --key=meili_addr --value=""
+	ynh_app_setting_set_default --key=meili_master_key --value=""
+	ynh_app_setting_set_default --key=openai_api_key --value=""
+	
+	# Basic Boolean Features (from your earlier snippet)
+	ynh_app_setting_set_default --key=inference_enable_auto_tagging --value="1"
+	ynh_app_setting_set_default --key=inference_enable_auto_summarization --value="1"
+	ynh_app_setting_set_default --key=ollama_base_url --value="http://127.0.0.1:11434"
+
 ynh_config_add --template=".env" --destination="$install_dir/.env"
 
 chmod 600 "$install_dir/.env"
