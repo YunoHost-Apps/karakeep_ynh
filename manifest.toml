@@ -52,7 +52,7 @@ ram.runtime = "800M"
     [resources.sources.dlp]
     url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.30.0.tar.gz"
     sha256 = "967753b76f36d8848e6accc8430bd3788a2120446c50704b769a4945cb73921e"
-    insubdir = false
+    in_subdir = false
     extract = false
     rename = "yt-dlp"
 
@@ -61,7 +61,7 @@ ram.runtime = "800M"
     [resources.sources.monolith]
     url = "https://github.com/karakeep-app/karakeep/archive/refs/tags/v0.30.0.tar.gz"
     sha256 = "967753b76f36d8848e6accc8430bd3788a2120446c50704b769a4945cb73921e"
-    insubdir = false
+    in_subdir = false
     extract = false
     rename = "monolith"
 
