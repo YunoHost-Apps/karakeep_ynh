@@ -3,6 +3,7 @@ version = "1.0"
 [main]
 name.en = "Karakeep configuration"
 name.fr = "Configuration de Karakeep"
+bind = ":__INSTALL_DIR__/.env"
 
     [main.config]
     name.en = "Configuration Options"
@@ -106,7 +107,8 @@ name.fr = "Configuration de Karakeep"
         type = "url"
         help.en = "MeiliSearch URL"
         help.fr = "URL MeiliSearch"
-        default = "http://localhost:7700"
+        default = "http://127.0.0.1:7700"
+        optional = true
 
         [main.external_services.meili_master_key]
         ask.en = "MeiliSearch Master Key"
