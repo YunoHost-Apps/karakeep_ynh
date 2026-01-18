@@ -3,11 +3,12 @@ version = "1.0"
 [main]
 name.en = "Karakeep configuration"
 name.fr = "Configuration de Karakeep"
-bind = ":__INSTALL_DIR__/.env"
+services = ["__APP__-browser", "__APP__-web", "__APP__-workers"]
 
     [main.config]
     name.en = "Configuration Options"
     name.fr = "Options de configuration"
+    bind = ":__INSTALL_DIR__/.env"
 
         [main.config.ollama_base_url]
         ask.en = "Ollama URL"
@@ -65,6 +66,7 @@ bind = ":__INSTALL_DIR__/.env"
     [main.performance]
     name.en = "Performance Tuning"
     name.fr = "Réglages de performance"
+    bind = ":__INSTALL_DIR__/.env"
 
         [main.performance.inference_context_length]
         ask.en = "Context Length"
@@ -100,6 +102,7 @@ bind = ":__INSTALL_DIR__/.env"
     [main.external_services]
     name.en = "External Services"
     name.fr = "Services externes"
+    bind = ":__INSTALL_DIR__/.env"
 
         [main.external_services.meili_addr]
         ask.en = "MeiliSearch URL"
