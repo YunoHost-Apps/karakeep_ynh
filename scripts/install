@@ -62,9 +62,9 @@ ynh_script_progression "Adding $app's configuration files..."
 	ynh_app_setting_set_default --key=meili_master_key --value=""
 	ynh_app_setting_set_default --key=openai_api_key --value=""
 	
-	# Basic Boolean Features (from your earlier snippet)
-	ynh_app_setting_set_default --key=inference_enable_auto_tagging --value=""
-	ynh_app_setting_set_default --key=inference_enable_auto_summarization --value=""
+	# Basic Boolean Features
+	ynh_app_setting_set_default --key=inference_enable_auto_tagging --value=false
+	ynh_app_setting_set_default --key=inference_enable_auto_summarization --value=false
 	ynh_app_setting_set_default --key=ollama_base_url --value="http://127.0.0.1:11434"
 
 ynh_config_add --template=".env" --destination="$install_dir/.env"
