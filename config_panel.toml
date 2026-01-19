@@ -1,0 +1,139 @@
+version = "1.0"
+
+[main]
+name.en = "Karakeep configuration"
+name.fr = "Configuration de Karakeep"
+services = ["__APP__-browser", "__APP__-web", "__APP__-workers"]
+
+    [main.config]
+    name.en = "Configuration Options"
+    name.fr = "Options de configuration"
+
+        [main.config.ollama_base_url]
+        ask.en = "Ollama URL"
+        ask.fr = "URL d'ollama"
+        type = "url"
+        help.en = "Default is http://127.0.0.1:11434"
+        help.fr = "L'addresse par défaut est http://127.0.0.1:11434"
+        default = "http://127.0.0.1:11434"
+        bind = ":__INSTALL_DIR__/.env"
+
+        [main.config.inference_enable_auto_tagging]
+        ask.en = "Whether automatic AI tagging is enabled or disabled"
+        ask.fr = "Que le balisage automatique par IA soit activé ou désactivé"
+        type = "boolean"
+        default = false
+        bind = ":__INSTALL_DIR__/.env"
+
+        [main.config.inference_enable_auto_summarization]
+        ask.en = "Whether automatic AI summarization is enabled or disabled"
+        ask.fr = "Que la synthèse automatique par IA soit activé ou désactivé"
+        type = "boolean"
+        default = false
+        bind = ":__INSTALL_DIR__/.env"
+
+        [main.config.inference_text_model]
+        ask.en = "Text Inference Model"
+        ask.fr = "Modèle d'inférence de texte"
+        type = "string"
+        default = "llama3.2"
+        help.en = "Model used for text generation (e.g., llama3.2)"
+        help.fr = "Modèle utilisé pour la génération de texte (ex: llama3.2)"
+        bind = ":__INSTALL_DIR__/.env"
+
+        [main.config.inference_image_model]
+        ask.en = "Image Inference Model"
+        ask.fr = "Modèle d'inférence d'image"
+        type = "string"
+        default = "llava"
+        help.en = "Model used for image analysis (e.g., llava)"
+        help.fr = "Modèle utilisé pour l'analyse d'image (ex: llava)"
+        bind = ":__INSTALL_DIR__/.env"
+
+        [main.config.inference_lang]
+        ask.en = "Inference Language"
+        ask.fr = "Langue d'inférence"
+        type = "string"
+        default = "english"
+        help.en = "Language used for AI processing"
+        help.fr = "Langue utilisée pour le traitement IA"
+        bind = ":__INSTALL_DIR__/.env"
+
+        [main.config.embedding_text_model]
+        ask.en = "Embedding Model"
+        ask.fr = "Modèle d'embedding"
+        type = "string"
+        default = "text-embedding-3-small"
+        help.en = "Model used for vector embeddings"
+        help.fr = "Modèle utilisé pour les vectorisations (embeddings)"
+        bind = ":__INSTALL_DIR__/.env"
+
+    # --- Performance Tuning Section ---
+    [main.performance]
+    name.en = "Performance Tuning"
+    name.fr = "Réglages de performance"
+
+        [main.performance.inference_context_length]
+        ask.en = "Context Length"
+        ask.fr = "Longueur du contexte"
+        type = "number"
+        default = 2048
+        help.en = "Increase to read longer articles. Higher values use more RAM."
+        help.fr = "Augmentez pour lire des articles plus longs. Utilise plus de RAM."
+        bind = ":__INSTALL_DIR__/.env"
+
+        [main.performance.inference_job_timeout_sec]
+        ask.en = "Inference Timeout (seconds)"
+        ask.fr = "Délai d'expiration (secondes)"
+        type = "number"
+        default = 300
+        help.en = "Increase if CPU inference is slow"
+        help.fr = "Augmentez si l'inférence CPU est lente"
+        bind = ":__INSTALL_DIR__/.env"
+
+        [main.performance.inference_num_workers]
+        ask.en = "Inference Workers"
+        ask.fr = "Processus d'inférence (Workers)"
+        type = "number"
+        default = 1
+        help.en = "STRICTLY set to 1 for self-hosted to avoid CPU freeze."
+        help.fr = "STRICTEMENT régler sur 1 en auto-hébergement pour éviter le gel du CPU."
+        bind = ":__INSTALL_DIR__/.env"
+
+        [main.performance.asset_preprocessing_num_workers]
+        ask.en = "Asset Preprocessing Workers"
+        ask.fr = "Processus de pré-traitement des assets"
+        type = "number"
+        default = 1
+        bind = ":__INSTALL_DIR__/.env"
+
+    # --- External Services Section ---
+    [main.external_services]
+    name.en = "External Services"
+    name.fr = "Services externes"
+
+        [main.external_services.meili_addr]
+        ask.en = "MeiliSearch URL"
+        ask.fr = "URL MeiliSearch"
+        type = "url"
+        help.en = "MeiliSearch URL"
+        help.fr = "URL MeiliSearch"
+        default = "http://127.0.0.1:7700"
+        optional = true
+        bind = ":__INSTALL_DIR__/.env"
+
+        [main.external_services.meili_master_key]
+        ask.en = "MeiliSearch Master Key"
+        ask.fr = "Clé maître MeiliSearch"
+        type = "string"
+        default = " "
+        bind = ":__INSTALL_DIR__/.env"
+
+        [main.external_services.openai_api_key]
+        ask.en = "OpenAI API Key"
+        ask.fr = "Clé API OpenAI"
+        type = "string"
+        help.en = "Required if using OpenAI models for embeddings"
+        help.fr = "Requis si vous utilisez les modèles OpenAI pour les embeddings"
+        default = " "
+        bind = ":__INSTALL_DIR__/.env"
