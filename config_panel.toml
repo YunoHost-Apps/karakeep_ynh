@@ -22,14 +22,18 @@ services = ["__APP__-browser", "__APP__-web", "__APP__-workers"]
         ask.en = "Whether automatic AI tagging is enabled or disabled"
         ask.fr = "Que le balisage automatique par IA soit activé ou désactivé"
         type = "boolean"
-        default = false
+        yes = "true"
+        no = "false"
+        default = "false" 
         bind = ":__INSTALL_DIR__/.env"
 
         [main.config.inference_enable_auto_summarization]
         ask.en = "Whether automatic AI summarization is enabled or disabled"
         ask.fr = "Que la synthèse automatique par IA soit activé ou désactivé"
         type = "boolean"
-        default = false
+        yes = "true"
+        no = "false"
+        default = "false" 
         bind = ":__INSTALL_DIR__/.env"
 
         [main.config.inference_text_model]
