@@ -120,7 +120,7 @@ popd
 
 pushd "$install_dir/apps/web"
 	ynh_script_progression "Building the Web..."
-  	ynh_hide_warnings pnpm exec next build --experimental-build-mode compile
+  	ynh_hide_warnings env NODE_OPTIONS="--max-old-space-size=4096" pnpm exec next build --experimental-build-mode compile
 popd
 
 pushd "$install_dir/apps/workers"
