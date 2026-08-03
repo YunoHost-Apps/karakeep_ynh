@@ -14,7 +14,7 @@ release=$(curl -s https://api.github.com/repos/karakeep-app/karakeep/releases/la
 ynh_script_progression "Installing dependencies..."
 
 export CYPRESS_INSTALL_BINARY=0
-ynh_hide_warnings corepack enable && corepack prepare pnpm@9 --activate
+ynh_hide_warnings corepack enable && corepack prepare pnpm@latest --activate
 
 #=================================================
 # STOP SYSTEMD SERVICE
@@ -115,7 +115,7 @@ popd
 
 pushd "$install_dir/apps/workers"
 	ynh_hide_warnings ynh_exec_as_app pnpm build
-	ynh_hide_warnings ynh_exec_as_app pnpm deploy --node-linker=isolated --filter @karakeep/workers --prod $install_dir/apps/workers/prod
+	ynh_hide_warnings pnpm deploy --node-linker=isolated --legacy --filter @karakeep/workers --prod /prod/workers
 popd
 
 pushd "$install_dir/apps/cli"
