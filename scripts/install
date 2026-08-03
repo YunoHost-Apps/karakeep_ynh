@@ -125,7 +125,7 @@ popd
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
 	ynh_hide_warnings ynh_exec_as_app pnpm --config.verify-deps-before-run=false build
-	ynh_hide_warnings ynh_exec_as_app pnpm deploy --node-linker=isolated --legacy --filter @karakeep/workers --prod /prod/workers
+	ynh_hide_warnings ynh_exec_as_app pnpm deploy --node-linker=isolated --legacy --filter @karakeep/workers --prod $install_dir/apps/prod/workers
 popd
 
 pushd "$install_dir/apps/cli"
