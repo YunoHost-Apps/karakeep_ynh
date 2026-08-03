@@ -13,7 +13,7 @@ release=$(curl -s https://api.github.com/repos/karakeep-app/karakeep/releases/la
 #=================================================
 ynh_script_progression "Installing dependencies..."
 
-ynh_hide_warnings corepack enable && corepack prepare pnpm@latest --activate
+ynh_hide_warnings corepack enable && corepack prepare pnpm@9 --activate
 
 #=================================================
 # STOP SYSTEMD SERVICE
