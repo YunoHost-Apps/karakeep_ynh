@@ -11,6 +11,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression "Installing dependencies..."
 
+export CYPRESS_INSTALL_BINARY=0
 ynh_hide_warnings corepack enable && corepack prepare pnpm@9 --activate
 
 #=================================================
