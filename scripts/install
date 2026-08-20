@@ -113,17 +113,20 @@ export NEXTAUTH_SECRET=$secret
 mkdir -p "$data_dir/db"
 
 pushd "$install_dir"
+	ynh_exec_as_app env
   	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile
 	ynh_hide_warnings ynh_exec_as_app pnpm run db:migrate
 popd
 
 pushd "$install_dir/apps/web"
+	ynh_exec_as_app env
 	ynh_script_progression "Building the Web..."
   	ynh_hide_warnings ynh_exec_as_app pnpm exec next build --experimental-build-mode compile
 popd
 
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
+	ynh_exec_as_app env
 	ynh_hide_warnings ynh_exec_as_app pnpm --config.verify-deps-before-run=false build
 	ynh_hide_warnings ynh_exec_as_app pnpm deploy --node-linker=isolated --legacy --filter @karakeep/workers --prod $install_dir/apps/prod/workers
 popd
