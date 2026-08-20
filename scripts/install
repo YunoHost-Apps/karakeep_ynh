@@ -115,6 +115,7 @@ ynh_exec_as_app_karakeep() {
 }
 
 mkdir -p "$data_dir/db"
+chown -R "$app:$app" "$data_dir"
 
 pushd "$install_dir"
   	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm install --frozen-lockfile
