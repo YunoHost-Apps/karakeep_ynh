@@ -120,12 +120,9 @@ chown -R "$app:$app" "$data_dir"
 pushd "$install_dir"
   	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm install --frozen-lockfile
 	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm run db:migrate
-popd
 
-pushd "$install_dir/apps/web"
 	ynh_script_progression "Building the Web..."
-  	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm build
-popd
+  	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm exec next build apps/web --experimental-build-mode compile
 
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
