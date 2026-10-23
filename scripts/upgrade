@@ -111,27 +111,19 @@ ynh_exec_as_app_karakeep() {
 pushd "$install_dir"
   	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm install --frozen-lockfile
 	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm run db:migrate
-popd
 
-pushd "$install_dir/apps/web"
-	ynh_script_progression "Building the Web..."
-  	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm exec next build --experimental-build-mode compile
-popd
+ynh_script_progression "Building the Web..."
+  	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm exec next build --filter @karakeep/web --experimental-build-mode compile
 
-pushd "$install_dir/apps/workers"
-	ynh_script_progression "Building the workers..."
-	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --config.verify-deps-before-run=false build
+ynh_script_progression "Building the workers..."
+	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --filter @karakeep/workers --config.verify-deps-before-run=false build
 	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm deploy --node-linker=isolated --legacy --filter @karakeep/workers --prod $install_dir/apps/prod/workers
-popd
 
-pushd "$install_dir/apps/cli"
-	ynh_script_progression "Building the CLI..."
-  	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --config.verify-deps-before-run=false build
-popd
+ynh_script_progression "Building the CLI..."
+  	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --filter @karakeep/cli --config.verify-deps-before-run=false build
 
-pushd "$install_dir/apps/mcp"
-	ynh_script_progression "Building the MCP..."
-	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --config.verify-deps-before-run=false build
+ynh_script_progression "Building the MCP..."
+	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --filter @karakeep/mcp --config.verify-deps-before-run=false build
 popd
 
 echo "$release" >$install_dir/version.txt
