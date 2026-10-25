@@ -90,4 +90,4 @@ ram.runtime = "800M"
     packages = "graphicsmagick, ghostscript, build-essential, chromium, sqlite3"
 
     [resources.nodejs]
-    version = "22"
+    version = "24"

@@ -12,7 +12,8 @@ source /usr/share/yunohost/helpers
 ynh_script_progression "Installing dependencies..."
 
 export CYPRESS_INSTALL_BINARY=0
-ynh_hide_warnings corepack enable && corepack prepare pnpm@latest --activate
+# ynh_hide_warnings corepack enable && corepack prepare pnpm@latest --activate
+ynh_hide_warnings corepack enable && corepack prepare pnpm@11.2.1 --activate
 
 #=================================================
 # INITIALIZE AND STORE SETTINGS
@@ -20,7 +21,7 @@ ynh_hide_warnings corepack enable && corepack prepare pnpm@latest --activate
 
 release=$(curl -s https://api.github.com/repos/karakeep-app/karakeep/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
 
-secret==$(ynh_string_random --length=36)
+secret=$(ynh_string_random --length=36)
 ynh_app_setting_set --key=secret --value=$secret
 
 #=================================================
@@ -120,12 +121,9 @@ chown -R "$app:$app" "$data_dir"
 pushd "$install_dir"
   	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm install --frozen-lockfile
 	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm run db:migrate
-popd
 
-pushd "$install_dir/apps/web"
 	ynh_script_progression "Building the Web..."
-  	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm exec next build --experimental-build-mode compile
-popd
+	ynh_hide_warnings ynh_exec_as_app_karakeep env HOME=$data_dir/tmp pnpm exec next build apps/web --experimental-build-mode compile
 
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
@@ -142,6 +140,7 @@ pushd "$install_dir/apps/mcp"
 	ynh_script_progression "Building the MCP..."
 	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --config.verify-deps-before-run=false build
 popd
+
 
 echo "$release" >$install_dir/version.txt
 
