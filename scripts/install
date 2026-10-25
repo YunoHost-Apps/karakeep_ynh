@@ -125,7 +125,7 @@ pushd "$install_dir"
 	ynh_script_progression "Building the Web..."
   	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --dir "$install_dir" exec next build apps/web --experimental-build-mode compile
 
-
+popd
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
 	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --config.verify-deps-before-run=false build
