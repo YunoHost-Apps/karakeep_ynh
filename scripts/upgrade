@@ -113,7 +113,7 @@ pushd "$install_dir"
 	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm run db:migrate
 
 ynh_script_progression "Building the Web..."
-  	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm exec next build --filter @karakeep/web --experimental-build-mode compile
+  	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --filter @karakeep/web exec next build --experimental-build-mode compile
 
 ynh_script_progression "Building the workers..."
 	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --filter @karakeep/workers --config.verify-deps-before-run=false build
