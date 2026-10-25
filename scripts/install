@@ -125,7 +125,7 @@ popd
 
 pushd "$install_dir/apps/web"
 	ynh_script_progression "Building the Web..."
-  	ynh_hide_warnings ynh_exec_as_app_karakeep env HOME=$data_dir/tmp pnpm --dir "$install_dir" exec next build --experimental-build-mode compile
+  	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --dir "$install_dir" exec next build --experimental-build-mode compile
 popd
 
 pushd "$install_dir/apps/workers"
