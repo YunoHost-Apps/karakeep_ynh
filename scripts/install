@@ -21,7 +21,7 @@ ynh_hide_warnings corepack enable && corepack prepare pnpm@11.2.1 --activate
 
 release=$(curl -s https://api.github.com/repos/karakeep-app/karakeep/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
 
-secret==$(ynh_string_random --length=36)
+secret=$(ynh_string_random --length=36)
 ynh_app_setting_set --key=secret --value=$secret
 
 #=================================================
