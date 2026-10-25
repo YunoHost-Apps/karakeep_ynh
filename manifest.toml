@@ -7,7 +7,7 @@ name = "Karakeep"
 description.en = "Bookmark-everything app (links, notes and images)"
 description.fr = "Gestionnaire de favoris (liens, notes et images)"
 
-version = "0.33.2~ynh1"
+version = "0.33.2~ynh2"
 
 maintainers = ["eric_G"]
 
