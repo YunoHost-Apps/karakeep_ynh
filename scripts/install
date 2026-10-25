@@ -12,7 +12,8 @@ source /usr/share/yunohost/helpers
 ynh_script_progression "Installing dependencies..."
 
 export CYPRESS_INSTALL_BINARY=0
-ynh_hide_warnings corepack enable && corepack prepare pnpm@latest --activate
+# ynh_hide_warnings corepack enable && corepack prepare pnpm@latest --activate
+ynh_hide_warnings corepack enable && corepack prepare pnpm@11.2.1 --activate
 
 #=================================================
 # INITIALIZE AND STORE SETTINGS
@@ -20,7 +21,7 @@ ynh_hide_warnings corepack enable && corepack prepare pnpm@latest --activate
 
 release=$(curl -s https://api.github.com/repos/karakeep-app/karakeep/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
 
-secret==$(ynh_string_random --length=36)
+secret=$(ynh_string_random --length=36)
 ynh_app_setting_set --key=secret --value=$secret
 
 #=================================================
@@ -104,39 +105,42 @@ yunohost service add "${app}-browser" --description="Bookmark-everything app" --
 #=================================================
 ynh_script_progression "Installing the app..."
 
-export NEXT_TELEMETRY_DISABLED=1
-export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
-export CI=true
-export DATA_DIR=$data_dir/db
-export NEXTAUTH_SECRET=$secret
+ynh_exec_as_app_karakeep() {
+	ynh_exec_as_app env \
+		NEXT_TELEMETRY_DISABLED=1 \
+		PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
+		CI=true \
+		DATA_DIR="$data_dir/db" \
+		NEXTAUTH_SECRET="$secret" \
+		"$@"
+}
 
 mkdir -p "$data_dir/db"
+chown -R "$app:$app" "$data_dir"
 
 pushd "$install_dir"
-  	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile
-	ynh_hide_warnings ynh_exec_as_app pnpm run db:migrate
-popd
+  	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm install --frozen-lockfile
+	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm run db:migrate
 
-pushd "$install_dir/apps/web"
 	ynh_script_progression "Building the Web..."
-  	ynh_hide_warnings ynh_exec_as_app pnpm exec next build --experimental-build-mode compile
-popd
+	ynh_hide_warnings ynh_exec_as_app_karakeep env HOME=$data_dir/tmp pnpm exec next build apps/web --experimental-build-mode compile
 
 pushd "$install_dir/apps/workers"
 	ynh_script_progression "Building the workers..."
-	ynh_hide_warnings ynh_exec_as_app pnpm --config.verify-deps-before-run=false build
-	ynh_hide_warnings ynh_exec_as_app pnpm deploy --node-linker=isolated --legacy --filter @karakeep/workers --prod $install_dir/apps/prod/workers
+	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --config.verify-deps-before-run=false build
+	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm deploy --node-linker=isolated --legacy --filter @karakeep/workers --prod $install_dir/apps/prod/workers
 popd
 
 pushd "$install_dir/apps/cli"
 	ynh_script_progression "Building the CLI..."
-  	ynh_hide_warnings ynh_exec_as_app pnpm --config.verify-deps-before-run=false build
+  	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --config.verify-deps-before-run=false build
 popd
 
 pushd "$install_dir/apps/mcp"
 	ynh_script_progression "Building the MCP..."
-	ynh_hide_warnings ynh_exec_as_app pnpm --config.verify-deps-before-run=false build
+	ynh_hide_warnings ynh_exec_as_app_karakeep pnpm --config.verify-deps-before-run=false build
 popd
+
 
 echo "$release" >$install_dir/version.txt
 
